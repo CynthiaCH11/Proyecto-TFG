@@ -1,0 +1,71 @@
+//region imports
+
+package com.example.ZeroFoodWaste.service;
+
+import com.example.ZeroFoodWaste.exception.EstablishmentNotFoundException;
+import com.example.ZeroFoodWaste.model.dto.EstablishmentResponseDTO;
+import com.example.ZeroFoodWaste.model.dto.NewUserDTO;
+import com.example.ZeroFoodWaste.model.entity.Establishment;
+import com.example.ZeroFoodWaste.model.entity.User;
+import com.example.ZeroFoodWaste.model.mapper.EstablishmentResponseMapper;
+import com.example.ZeroFoodWaste.repository.EstablishmentRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
+
+//endregion
+
+@Service
+@RequiredArgsConstructor
+public class EstablishmentService {
+
+    private final EstablishmentRepository establishmentRepository;
+    private final EstablishmentResponseMapper establishmentResponseMapper;
+
+    //region get
+
+    /**
+     * Retrieves an establishment associated with a specific user ID.
+     *
+     * @param id the ID of the user whose establishment is to be retrieved
+     * @return the {@link EstablishmentResponseDTO} linked to the user
+     * @throws NoSuchElementException if no establishment is found for the given user ID
+     */
+    public EstablishmentResponseDTO getEstablishment(Long id) {
+        return establishmentResponseMapper.toDTO(establishmentRepository.findById(id).orElseThrow(
+                () -> new EstablishmentNotFoundException(id)));
+    }
+
+    //endregion
+
+    //region post
+    @Transactional
+    public EstablishmentResponseDTO createEstablishment(Establishment establishment) {
+        return establishmentResponseMapper.toDTO(establishmentRepository.save(establishment));
+    }
+    //endregion
+
+    //region put/patch
+
+    /**
+     * Updates an existing establishment with new values.
+     * Only the fields allowed for modification will be updated; ID and user association are not changed.
+     *
+     * @param id
+     * @param dto an {@link EstablishmentResponseDTO} object containing the new values
+     * @return the updated {@link EstablishmentResponseDTO} after saving the changes
+     * @throws NoSuchElementException if the establishment with the given ID does not exist
+     */
+    @Transactional
+    public EstablishmentResponseDTO modifyEstablishment(Long id, EstablishmentResponseDTO dto) {
+        Establishment establishment = establishmentRepository.findById(id).orElseThrow(
+                () -> new EstablishmentNotFoundException(id)
+        );
+        establishmentResponseMapper.updateEntityFromDTO(dto, establishment);
+        return establishmentResponseMapper.toDTO(establishmentRepository.save(establishment));
+    }
+
+    //endregion
+}
