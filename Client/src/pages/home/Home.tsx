@@ -1,9 +1,5 @@
 import React, { useRef } from "react";
 import LogoFull from "../../assets/logos/Logo_ZeroFoodWasteTransparent.png";
-import MickaelImg from "../../assets/homePictures/Mickael.jpg";
-import CynthiaImg from "../../assets/homePictures/Cynthia.jpg";
-import IgnacioImg from "../../assets/homePictures/Ignacio.jpg";
-import PabloImg from "../../assets/homePictures/Pablo.jpg";
 
 // Hook para animación al aparecer una sola vez
 const useOnScreenOnce = (
@@ -225,40 +221,6 @@ export const Home = () => {
             <button className="text-green-800 bg-white rounded h-12 w-52 hover:ring-2 ring-white transition">
               Para Bancos alimenticios
             </button>
-          </div>
-        </section>
-      </AnimatedSection>
-
-      {/* El equipo */}
-      <AnimatedSection>
-        <section className="container mx-auto bg-gray-100 py-12 text-center">
-          <h3 className="text-3xl font-bold mb-4">El Equipo</h3>
-          <p className="text-lg mb-8 px-8 md:px-40">
-            Somos un grupo apasionado dedicado a reducir el desperdicio de
-            alimentos y la inseguridad alimentaria mediante la tecnología y la
-            comunidad.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-6 px-4">
-            {teamMembers.map((member) => (
-              <div
-                key={member.name}
-                className="w-full sm:w-1/2 md:w-1/4 bg-white rounded-lg shadow-lg py-8 flex flex-col items-center text-center"
-              >
-                <div className="w-28 h-28 rounded-full overflow-hidden mb-4">
-                  <img
-                    src={member.img}
-                    alt={member.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-lg font-medium text-gray-900">
-                  {member.name}
-                </h3>
-                <p className="text-sm mt-1">{member.role}</p>
-                <p className="text-sm text-gray-600 mt-3 px-2">{member.desc}</p>
-              </div>
-            ))}
           </div>
         </section>
       </AnimatedSection>
